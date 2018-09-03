@@ -29,8 +29,8 @@ class VariantTyperTest(TestCase):
                                   alternate_coverages=alternate_coverages
                                   )
         call = self.vt.type([v1])
-        assert call['genotype'] == [0, 0]
-        assert call["info"].get('expected_depths') == [100]
+        self.assertEqual([0, 0], call['genotype'])
+        self.assertEqual([100], call["info"]['expected_depths'])
 
     def test_alt_vars(self):
         reference_coverage = ProbeCoverage(min_depth=100,
@@ -46,7 +46,7 @@ class VariantTyperTest(TestCase):
                                   alternate_coverages=alternate_coverages
                                   )
         call = self.vt.type([v1])
-        assert call['genotype'] == [1, 1]
+        self.assertEqual([1, 1], call['genotype'])
 
     def test_mixed_vars(self):
         reference_coverage = ProbeCoverage(min_depth=100,
@@ -62,7 +62,7 @@ class VariantTyperTest(TestCase):
                                   alternate_coverages=alternate_coverages
                                   )
         call = self.vt.type(v1)
-        assert call['genotype'] == [0, 1]
+        self.assertEqual([0, 1], call['genotype'])
 
     def test_mixed_vars2(self):
         reference_coverage = ProbeCoverage(min_depth=11,
@@ -78,7 +78,7 @@ class VariantTyperTest(TestCase):
                                   alternate_coverages=alternate_coverages
                                   )
         call = self.vt.type(v1)
-        assert call['genotype'] == [0, 1]
+        self.assertEqual([0, 1], call['genotype'])
 
 
 class VariantTyperWithContamination(TestCase):
@@ -110,7 +110,7 @@ class VariantTyperWithContamination(TestCase):
                                   )
 
         call = self.vt_no_contaim.type(v1)
-        assert call['genotype'] == [0, 1]
+        self.assertEqual([0, 1], call['genotype'])
 
         # call = self.vt_contaim.type(v1)
         # assert call['genotype'] == [0, 0]
@@ -146,10 +146,10 @@ class TestVariantTyperWithMultipleAlternateCoverages(TestCase):
                                   reference_coverages=[reference_coverage],
                                   alternate_coverages=alternate_coverages
                                   )
-        assert v1._choose_best_alternate_coverage() == alt2
+        self.assertEqual(alt2, v1._choose_best_alternate_coverage())
 
         call = self.vt_no_contaim.type(v1)
-        assert call['genotype'] == [1, 1]
+        self.assertEqual([1, 1], call['genotype'])
 
 
 class TestVariantTyperWithMultipleProbeCoverages(TestCase):
@@ -203,7 +203,7 @@ class TestVariantTyperWithMultipleProbeCoverages(TestCase):
                                   )
 
         call = self.vt_no_contaim.type([v1, v2])
-        assert call['genotype'] == [1, 1]
+        self.assertEqual([1, 1], call['genotype'])
 
 
 class TestVariantTyperWithLowMinimum(TestCase):
@@ -235,7 +235,7 @@ class TestVariantTyperWithLowMinimum(TestCase):
                                   )
 
         call = self.vt_no_contaim.type(v1)
-        assert call['genotype'] == [0, 0]
+        self.assertEqual([0, 0], call['genotype'])
 
     def test_3(self):
         reference_coverage = ProbeCoverage(min_depth=2,
@@ -253,8 +253,8 @@ class TestVariantTyperWithLowMinimum(TestCase):
                                   )
 
         call = self.vt2_no_contaim.type(v1)
-        assert call['genotype'] == [1, 1]
-        assert call["info"]["conf"] < 100
+        self.assertEqual([1, 1], call['genotype'])
+        self.assertTrue(call["info"]["conf"] < 100)
 
     def test_4(self):
         vt = VariantTyper(
@@ -276,6 +276,6 @@ class TestVariantTyperWithLowMinimum(TestCase):
                                   )
 
         call = vt.type(v1)
-        assert call['genotype'] == [0, 1]
+        self.assertEqual([0, 1], call['genotype'])
         print(call["info"])
-        assert call["info"]["conf"] < 100
+        self.assertTrue(call["info"]["conf"] < 100)
