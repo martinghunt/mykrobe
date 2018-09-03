@@ -39,6 +39,8 @@ class Typer(object):
             gt = "0/1"
         elif i == 2:
             gt = "1/1"
+        elif i == 3:
+            gt = "./."
         return gt
 
     def has_contamination(self):

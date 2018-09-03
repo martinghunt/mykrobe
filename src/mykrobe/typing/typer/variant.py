@@ -57,6 +57,7 @@ class VariantTyper(Typer):
                 self.expected_depths, self.contamination_depths, self.error_rate, self.minor_freq)
         self.ignore_filtered = ignore_filtered
         self.filters = filters
+        print('self.filters:', self.filters)
 
         if len(expected_depths) > 1:
             raise NotImplementedError("Mixed samples not handled yet")
@@ -75,8 +76,8 @@ class VariantTyper(Typer):
             calls.append(
                 self._type_variant_probe_coverages(
                     variant_probe_coverage, variant))
-        hom_alt_calls = [c for c in calls if sum(c["genotype"]) > 1]
-        het_calls = [c for c in calls if sum(c["genotype"]) == 1]
+        hom_alt_calls = [c for c in calls if "-" not in c["genotype"] and sum(c["genotype"]) > 1]
+        het_calls = [c for c in calls if "-" not in c["genotype"] and sum(c["genotype"]) == 1]
         if hom_alt_calls:
             hom_alt_calls.sort(key=lambda x: x["info"]["conf"], reverse=True)
             return hom_alt_calls[0]
@@ -96,6 +97,9 @@ class VariantTyper(Typer):
         else:
             het_likelihood = MIN_LLK
         likelihoods = [hom_ref_likelihood, het_likelihood, hom_alt_likelihood]
+        missing_likelihood = self.model.missing_allele_lik(variant_probe_coverage)
+        if missing_likelihood is not None:
+            likelihoods.append(missing_likelihood)
         confidence = likelihoods_to_confidence(likelihoods)
         gt = self.likelihoods_to_genotype(
             likelihoods
@@ -119,10 +123,15 @@ class VariantTyper(Typer):
         if "LOW_GT_CONF" in self.filters and (confidence < self.confidence_threshold):
             info["filter"] = "LOW_GT_CONF"
 
+        if gt == "./.":
+            info["filter"] = "MISSING_ALLELE"
+            genotype = ["-", "-"]
+        else:
+            genotype = [int(i) for i in gt.split("/")]
+
         return {
             "variant": variant,
-            "genotype": [
-                int(i) for i in gt.split("/")],
+            "genotype": genotype,
             "genotype_likelihoods": likelihoods,
             "info": info,
             "_cls": "Call.VariantCall"}
@@ -145,12 +154,33 @@ class GenotypeModel(object):
     def het_lik(self, variant_probe_coverage):
         raise NotImplementedError
 
+    def missing_allele_lik(self, variant_probe_coverage):
+        return NotImplementedError
+
 
 class KmerCountGenotypeModel(GenotypeModel):
 
     def __init__(self, expected_depths, contamination_depths, error_rate, minor_freq):
         super(KmerCountGenotypeModel, self).__init__(
             expected_depths, contamination_depths, error_rate, minor_freq)
+
+
+    def missing_allele_lik(self, variant_probe_coverage):
+        missing_likes = [log_lik_R_S_kmer_count(
+            variant_probe_coverage.reference_kmer_count,
+            variant_probe_coverage.alternate_kmer_count,
+            0,
+            self.error_rate / 3)]
+
+        for contamination in self.contamination_depths:
+            missing_likes.append(
+                log_lik_R_S_kmer_count(
+                    variant_probe_coverage.reference_kmer_count,
+                    variant_probe_coverage.alternate_kmer_count,
+                    contamination,
+                    contamination * self.error_rate / 3))
+        return max(missing_likes)
+
 
     def hom_ref_lik(self, variant_probe_coverage):
         hom_ref_likes = []
@@ -218,6 +248,24 @@ class DepthCoverageGenotypeModel(GenotypeModel):
     def __init__(self, expected_depths, contamination_depths, error_rate, minor_freq):
         super(DepthCoverageGenotypeModel, self).__init__(
             expected_depths, contamination_depths, error_rate, minor_freq)
+
+
+    def missing_allele_lik(self, variant_probe_coverage):
+        missing_likes = [log_lik_R_S_kmer_count(
+            variant_probe_coverage.reference_median_depth,
+            variant_probe_coverage.alternate_median_depth,
+            0,
+            self.error_rate / 3)]
+
+        for contamination in self.contamination_depths:
+            missing_likes.append(
+                log_lik_R_S_kmer_count(
+                    variant_probe_coverage.reference_median_depth,
+                    variant_probe_coverage.alternate_median_depth,
+                    contamination,
+                    contamination * self.error_rate / 3))
+        return max(missing_likes)
+
 
     def hom_ref_lik(self, variant_probe_coverage):
         if variant_probe_coverage.reference_percent_coverage < 100 * \

@@ -115,7 +115,7 @@ genotyping_mixin.add_argument(
     '--filters',
     help="don't include filtered genotypes",
     nargs='+',
-    default=["MISSING_WT", "LOW_PERCENT_COVERAGE", "LOW_GT_CONF"],
+    default=["MISSING_WT", "LOW_PERCENT_COVERAGE", "LOW_GT_CONF", "MISSING_ALLELE"],
     required=False)
 genotyping_mixin.add_argument(
     '--report_all_calls',

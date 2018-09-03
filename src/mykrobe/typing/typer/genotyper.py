@@ -337,9 +337,15 @@ class Genotyper(object):
 
             call = gt.type(probe_coverages, variant=probe_name)
 
-            genotypes.append(sum(call["genotype"]))
+            try:
+                genotype_sum = sum(call["genotype"])
+            except:
+                genotype_sum = '.'
+
+            genotypes.append(genotype_sum)
+
             filters.append(int(call["info"]["filter"] == "PASS"))
-            if sum(call["genotype"]) > 0 or not call[
+            if genotype_sum == '.' or genotype_sum > 0 or not call[
                     "genotype"] or self.report_all_calls:
                 self.variant_calls[probe_name] = call
                 self.variant_calls_dict[
