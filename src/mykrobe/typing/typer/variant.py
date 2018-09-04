@@ -57,7 +57,6 @@ class VariantTyper(Typer):
                 self.expected_depths, self.contamination_depths, self.error_rate, self.minor_freq)
         self.ignore_filtered = ignore_filtered
         self.filters = filters
-        print('self.filters:', self.filters)
 
         if len(expected_depths) > 1:
             raise NotImplementedError("Mixed samples not handled yet")
@@ -166,20 +165,26 @@ class KmerCountGenotypeModel(GenotypeModel):
 
 
     def missing_allele_lik(self, variant_probe_coverage):
-        missing_likes = [log_lik_R_S_kmer_count(
-            variant_probe_coverage.reference_kmer_count,
-            variant_probe_coverage.alternate_kmer_count,
-            0,
-            self.error_rate / 3)]
+        # Bug somewhere with log_lik_R_S_kmer_count, which means this
+        # missing allele model always wins (at least, in the tests).
+        # So for now, do not use it.
+        return None
+        #missing_likes = []
+        #for expected_depth in self.expected_depths:
+        #    missing_likes.append(log_lik_R_S_kmer_count(
+        #        variant_probe_coverage.reference_kmer_count,
+        #        variant_probe_coverage.alternate_kmer_count,
+        #        expected_depth * self.error_rate / 4,
+        #        expected_depth * self.error_rate / 4))
 
-        for contamination in self.contamination_depths:
-            missing_likes.append(
-                log_lik_R_S_kmer_count(
-                    variant_probe_coverage.reference_kmer_count,
-                    variant_probe_coverage.alternate_kmer_count,
-                    contamination,
-                    contamination * self.error_rate / 3))
-        return max(missing_likes)
+        #    for contamination in self.contamination_depths:
+        #        missing_likes.append(
+        #            log_lik_R_S_kmer_count(
+        #                variant_probe_coverage.reference_kmer_count,
+        #                variant_probe_coverage.alternate_kmer_count,
+        #                (expected_depth + contamination) * self.error_rate / 4,
+        #                (expected_depth + contamination) * self.error_rate / 4))
+        #return max(missing_likes)
 
 
     def hom_ref_lik(self, variant_probe_coverage):
@@ -251,19 +256,21 @@ class DepthCoverageGenotypeModel(GenotypeModel):
 
 
     def missing_allele_lik(self, variant_probe_coverage):
-        missing_likes = [log_lik_R_S_kmer_count(
-            variant_probe_coverage.reference_median_depth,
-            variant_probe_coverage.alternate_median_depth,
-            0,
-            self.error_rate / 3)]
+        missing_likes = []
+        for expected_depth in self.expected_depths:
+            missing_likes.append(log_lik_R_S_coverage(
+                variant_probe_coverage.reference_median_depth,
+                variant_probe_coverage.alternate_median_depth,
+                expected_depth * self.error_rate / 4,
+                expected_depth * self.error_rate / 4))
 
-        for contamination in self.contamination_depths:
-            missing_likes.append(
-                log_lik_R_S_kmer_count(
-                    variant_probe_coverage.reference_median_depth,
-                    variant_probe_coverage.alternate_median_depth,
-                    contamination,
-                    contamination * self.error_rate / 3))
+            for contamination in self.contamination_depths:
+                missing_likes.append(
+                    log_lik_R_S_coverage(
+                        variant_probe_coverage.reference_median_depth,
+                        variant_probe_coverage.alternate_median_depth,
+                        contamination * self.error_rate / 4,
+                        contamination * self.error_rate / 4))
         return max(missing_likes)
 
 
