@@ -115,6 +115,13 @@ class BasePredictor(object):
                 current_resistance_prediction = self.resistance_predictions[
                     drug]["predict"]
                 assert resistance_prediction is not None
+                # If *any* allele gets the "missing allele" genotype, then the prediction
+                # is "V", regardless of other R or S predictions for that drug
+                if "V" in [self.resistance_predictions[drug]["predict"], current_resistance_prediction, resistance_prediction]:
+                    self.resistance_predictions[drug][
+                        "predict"] = "V"
+                    continue
+
                 if current_resistance_prediction == "N":
                     self.resistance_predictions[drug][
                         "predict"] = resistance_prediction
@@ -178,6 +185,8 @@ class BasePredictor(object):
         __resistance_prediction = None
         if '-' in variant_or_gene.get('genotype'):
             __resistance_prediction = "U"
+        elif '.' in variant_or_gene.get('genotype'):
+            __resistance_prediction = "V"
         elif sum(variant_or_gene.get('genotype')) == 2:
             if (is_filtered(variant_or_gene) and self.ignore_filtered) or depth_on_alternate(variant_or_gene) < self.depth_threshold:
                 __resistance_prediction = "N"
