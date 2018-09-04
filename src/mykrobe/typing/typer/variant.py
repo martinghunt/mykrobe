@@ -75,8 +75,8 @@ class VariantTyper(Typer):
             calls.append(
                 self._type_variant_probe_coverages(
                     variant_probe_coverage, variant))
-        hom_alt_calls = [c for c in calls if "-" not in c["genotype"] and sum(c["genotype"]) > 1]
-        het_calls = [c for c in calls if "-" not in c["genotype"] and sum(c["genotype"]) == 1]
+        hom_alt_calls = [c for c in calls if "." not in c["genotype"] and sum(c["genotype"]) > 1]
+        het_calls = [c for c in calls if "." not in c["genotype"] and sum(c["genotype"]) == 1]
         if hom_alt_calls:
             hom_alt_calls.sort(key=lambda x: x["info"]["conf"], reverse=True)
             return hom_alt_calls[0]
@@ -124,7 +124,7 @@ class VariantTyper(Typer):
 
         if gt == "./.":
             info["filter"] = "MISSING_ALLELE"
-            genotype = ["-", "-"]
+            genotype = [".", "."]
         else:
             genotype = [int(i) for i in gt.split("/")]
 
