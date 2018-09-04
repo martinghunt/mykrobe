@@ -115,17 +115,11 @@ class BasePredictor(object):
                 current_resistance_prediction = self.resistance_predictions[
                     drug]["predict"]
                 assert resistance_prediction is not None
-                # If *any* allele gets the "missing allele" genotype, then the prediction
-                # is "V", regardless of other R or S predictions for that drug
-                if "V" in [self.resistance_predictions[drug]["predict"], current_resistance_prediction, resistance_prediction]:
-                    self.resistance_predictions[drug][
-                        "predict"] = "V"
-                    continue
 
                 if current_resistance_prediction == "N":
                     self.resistance_predictions[drug][
                         "predict"] = resistance_prediction
-                elif current_resistance_prediction in ["I", "S"]:
+                elif current_resistance_prediction in ["I", "S", "V"]:
                     if resistance_prediction in ["r", "R"]:
                         self.resistance_predictions[drug][
                             "predict"] = resistance_prediction
@@ -133,14 +127,18 @@ class BasePredictor(object):
                     if resistance_prediction == "R":
                         self.resistance_predictions[drug][
                             "predict"] = resistance_prediction
-                if resistance_prediction in ["r", "R"]:
+                if resistance_prediction in ["r", "R", "V"]:
                     variant_or_gene['variant'] = None
+                    if resistance_prediction in ["r", "R"]:
+                        key = "called_by"
+                    else:
+                        key = "missing_allele"
                     try:
-                        self.resistance_predictions[drug]["called_by"][
+                        self.resistance_predictions[drug][key][
                             "-".join(variant_or_gene_names)] = variant_or_gene
                     except KeyError:
-                        self.resistance_predictions[drug]["called_by"] = {}
-                        self.resistance_predictions[drug]["called_by"][
+                        self.resistance_predictions[drug][key] = {}
+                        self.resistance_predictions[drug][key][
                             "-".join(variant_or_gene_names)] = variant_or_gene
 
     def _get_names(self, allele_name):
