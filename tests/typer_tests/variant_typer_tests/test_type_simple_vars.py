@@ -277,5 +277,4 @@ class TestVariantTyperWithLowMinimum(TestCase):
 
         call = vt.type(v1)
         self.assertEqual([0, 1], call['genotype'])
-        print(call["info"])
         self.assertTrue(call["info"]["conf"] < 100)
