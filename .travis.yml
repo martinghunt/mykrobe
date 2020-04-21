@@ -25,6 +25,7 @@ jobs:
     - sudo mkdir -p /data/db
     - sudo chown -R `id -un` /data/db
     - mongod --quiet &>/dev/null &
+    - brew install python3
     before_deploy:
     # We need to install mykrobe, including the data, so that when we run
     # pyinstaller later, it includes the data and the python module
