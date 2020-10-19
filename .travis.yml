@@ -28,6 +28,8 @@ jobs:
     # We need to install mykrobe, including the data, so that when we run
     # pyinstaller later, it includes the data and the python module
     # dependencies
+    - sudo touch /usr/local/LICENSE
+    - sudo chmod 666 /usr/local/LICENSE
     - pip3 install .
     - mykrobe panels update_metadata --panels_dir src/mykrobe/data
     - mykrobe panels update_species --panels_dir src/mykrobe/data --debug all
@@ -50,12 +52,12 @@ deploy:
   draft: true
   skip_cleanup: true
   api_key:
-    secure: LaQUPzf9gvFicA9AAL3iLWKuZMxpXjjJaTLqD6vmBIuGnrvUDUvFU6DSpYKJktjUvM6XDyBJI7A/LCSiZ5+H25pfBPWU8XL41QiyAGG3oI9qWnnhEjtD/va49xf9la1d8ISfG+IMGLI7+n/G2tLCwhnouGLT4ntNnfMOeUQymgSPcyP3nc6ikoBq5SblMxXv9fpZvoSEah/wCDxak5r86dU2imPkH5TMLsdTaaVX4M+aTMqb38RqERFV7oQablHJ8Cwb4lMVO5WuYiLCyIjl1hf4yhQZAO8I2PcTETzDxvjsHZ5+FXidNB6zp66EYnyioS+ZwYopY3DO8Ri83WLyDA44TCzo84reOmwrMTeyrihdWXLM4yShRz1yLnFhJvXs4iZdFRt7eiQcnjeR3D8YLBtGMiTGSEl67gHpTl5aqgBL+xE2ESo9LZ1hC2ud+ff5avyPOQmfLGSKQSoMibU3KwvoYN+qmBEQiBAY9aTe4xTsd2NPY4qPD9Sr4PHed/jo7irUbx+RAQD43hGmswN60fwEEWpQ3UsU2J8mx0edywKxXFZ7IsotT8uwhOCbTZIVlWnXohKa/cEvnytOrKhtWo+afofQSokDWq7kBAGVP2aLmNmwY0ijMo+zKYOG3+jIsc4pWnDsuyNmIAQKFeB7lTZgC6COSykdPmZi8oI2rI8=
+    secure: NkTX3yLCZiJrSOIUwoGql9VdbTm5YkHoqaPbRytkOaRrr3LVl4jALKqrPopPfjMcHTKwGgJCq9Lr35XsTbnXKxEkaAe5UrBqiUJc6bcclX0zODwRCPZuLZ3GVcKPorRV75azPNEjW+pOjU72fIDNYTVLq+4+VmpI77rOfgoKYqsT9mjbhpMqpwST+YjgSOAv8Wr2WaUpaYxJyUxtsQXUMSZWhqheJBIfAdoWd7+MgqNYvK6lGzuvaVbFugv7pwzV8ZxxopW7A/LAKgoJrIdFaVbHg/iXHuWLPTZ4YocyWXWAEkUUNcUo5Ezg77PdPLox0HvZuIAJfgM129Pl6OCZeVeUxpI2Q1s770m72ULwMVTILLIkhhi6PCmNUbVxbdnqIZCHXf+kdicHeSLF9fxbMO7AIDX6D0ixQ/SWOVdHQVUZmoPCal2Lv2RPJvl+1clXUfKSPmX4Ht3v+z4OwwObAzb/cW2uB1djxzRtHD/bAs7XD692w9ddEcdiPp/MvEyC9jCwZ9T7o9z3tPjGPWepNRsUoKK2SqlFUcsLR97KEPP/jRPVUnqtPN8PvNLyFOvbyVFe8PZEqqtuVDftqFUEBsy8+NPaXI8/qcyg/hZO0M01JXIN5ILE+8W3eBqj4pHL8IveAXkiRS5SsSY791+N/0Ujoy5T3eMcQGPdoaTeWvA=
   file: mykrobe.command_line.${TRAVIS_OS_NAME}.${TRAVIS_TAG}.tar.gz
   on:
     tags: true
     condition: $TRAVIS_OS_NAME = osx
-    repo: Mykrobe-tools/mykrobe
+    repo: martinghunt/mykrobe
 
 notifications:
   email: false
