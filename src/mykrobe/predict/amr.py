@@ -178,7 +178,9 @@ class BasePredictor(object):
 
     def _resistance_prediction(self, variant_or_gene, names):
         __resistance_prediction = None
-        if sum(variant_or_gene.get('genotype')) == 2:
+        if "-" in variant_or_gene.get("genotype"):
+            __resistance_prediction = "N"
+        elif sum(variant_or_gene.get('genotype')) == 2:
             if (is_filtered(variant_or_gene) and self.ignore_filtered) or depth_on_alternate(variant_or_gene) < self.depth_threshold:
                 __resistance_prediction = "N"
             elif self._coverage_greater_than_threshold(variant_or_gene, names):

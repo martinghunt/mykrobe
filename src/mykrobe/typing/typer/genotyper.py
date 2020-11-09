@@ -360,11 +360,11 @@ class Genotyper(object):
         for probe_id, probe_coverages in self.variant_covgs.items():
             probe_name = self._name_to_id(probe_coverages.var_name)
             call = gt.type(probe_coverages, variant=probe_name)
-            genotypes.append(sum(call["genotype"]))
+            genotypes.append("-" if "-" in call["genotype"] else sum(call["genotype"]))
             filters.append(int(call["info"]["filter"] == []))
 
             if (
-                sum(call["genotype"]) > 0
+                ("-" not in call["genotype"] and sum(call["genotype"])) > 0
                 or not call["genotype"]
                 or self.report_all_calls
             ):

@@ -33,8 +33,8 @@ class VariantTyper(Typer):
                  ignore_filtered=False,
                  filters=[],
                  confidence_threshold=3,
-                 model="kmer_count", 
-                 kmer_size=31, 
+                 model="kmer_count",
+                 kmer_size=31,
                  min_proportion_expected_depth=0.3,
                  ploidy="diploid"):
 
@@ -81,8 +81,8 @@ class VariantTyper(Typer):
             calls.append(
                 self._type_variant_probe_coverages(
                     variant_probe_coverage, variant_probe_coverage.var_name))
-        hom_alt_calls = [c for c in calls if sum(c["genotype"]) > 1]
-        het_calls = [c for c in calls if sum(c["genotype"]) == 1]
+        hom_alt_calls = [c for c in calls if "-" not in c["genotype"] and sum(c["genotype"]) > 1]
+        het_calls = [c for c in calls if "-" not in c["genotype"] and sum(c["genotype"]) == 1]
         if hom_alt_calls:
             hom_alt_calls.sort(key=lambda x: x["info"]["conf"], reverse=True)
             return hom_alt_calls[0]
@@ -95,7 +95,7 @@ class VariantTyper(Typer):
 
     @property
     def diploid_model(self):
-        return self.ploidy=="diploid"        
+        return self.ploidy=="diploid"
 
     def _type_variant_probe_coverages(
             self, variant_probe_coverage, variant=None):
@@ -134,14 +134,22 @@ class VariantTyper(Typer):
             expected_depth = self.expected_depths[0]
             if total_depth < self.min_proportion_expected_depth * expected_depth:
                 logger.debug("%s" % variant_probe_coverage.var_name)
-                info["filter"].append("LOW_TOTAL_DEPTH") 
+                info["filter"].append("LOW_TOTAL_DEPTH")
 
         if not self.diploid_model:
             likelihoods=[likelihoods[0],likelihoods[2]]
+
+        # Comments from Martin Hunt 2020-11-03 fixing a bug when gt == "-/-":
+        # At this point if gt is "/", then trying to split on "/" and convert to
+        # ints fails.
+        if gt == "-/-":
+            gt_list = ["-", "-"]
+        else:
+            gt_list = [int(i) for i in gt.split("/")]
+
         return {
             "variant": variant,
-            "genotype": [
-                int(i) for i in gt.split("/")],
+            "genotype": gt_list,
             "genotype_likelihoods": likelihoods,
             "info": info,
             "_cls": "Call.VariantCall"}
@@ -228,7 +236,7 @@ class KmerCountGenotypeModel(GenotypeModel):
                                               self.klen_to_dna_len(variant_probe_coverage.alternate_klen))
             logger.debug("hom alt kmer_count_likelihood: %f %s" % (kmer_count_likelihood,variant_probe_coverage.var_name))
             logger.debug("hom alt ngaps_likelihood: %f %s " % (ngaps_likelihood,variant_probe_coverage.var_name))
-                
+
             hom_alt_liks.append(kmer_count_likelihood + ngaps_likelihood)
             # for contamination in self.contamination_depths:
             #     hom_alt_liks.append(
