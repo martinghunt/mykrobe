@@ -122,8 +122,8 @@ jobs:
 
     - name: Install dependencies and run tests
       run: |
-        sudo mkdir -p /data/db
-        sudo chown -R `id -un` /data/db
+        #sudo mkdir -p /data/db
+        #sudo chown -R `id -un` /data/db
         mongod --quiet &>/dev/null &
         pip3 install cython requests wheel tox pyinstaller
 
