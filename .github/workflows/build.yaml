@@ -143,9 +143,13 @@ jobs:
         sudo ls -lh /
         sudo ls -lh /usr/local/etc/
         sudo cat /usr/local/etc/mongod.conf
-        sudo mkdir -p /data/db
-        sudo chown -R `id -un` /data/db
-        sudo mongod --quiet &>/dev/null &
+        sudo ls -lh /usr/local/var/
+        sudo ls -lh /usr/local/var/mongodb
+        #sudo mkdir -p /data/db
+        #sudo chown -R `id -un` /data/db
+        #sudo mongod --quiet &>/dev/null &
+        sudo mongod --quiet &
+        sleep 3s
         sudo tox
         sudo pip3 install .
         mykrobe panels update_metadata --panels_dir src/mykrobe/data
