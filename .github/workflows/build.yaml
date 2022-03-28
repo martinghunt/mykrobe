@@ -141,6 +141,8 @@ jobs:
       run: |
         sudo mongod --help
         sudo ls -lh /
+        sudo ls -lh /usr/local/etc/
+        sudo cat /usr/local/etc/mongod.conf
         sudo mkdir -p /data/db
         sudo chown -R `id -un` /data/db
         sudo mongod --quiet &>/dev/null &
