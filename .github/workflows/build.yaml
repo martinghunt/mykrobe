@@ -159,7 +159,7 @@ jobs:
         cd dist
         pyinstaller --workpath='./pyinstaller_build/binary_cache' --distpath='./pyinstaller_build' mykrobe_atlas_pyinstaller.spec
         cd pyinstaller_build
-        tar cvfz ../../mykrobe_atlas/${OUTPUT_TARBALL} mykrobe_atlas/
+        tar cvfz ../../${OUTPUT_TARBALL} mykrobe_atlas/
 
     - name: Release
       if: startsWith(github.event.ref, 'refs/tags/v')
