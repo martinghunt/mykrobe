@@ -150,7 +150,7 @@ jobs:
         #sudo mongod --quiet &>/dev/null &
         mkdir $HOME/mongodb_data
         chown -R `id -un` $HOME/mongodb_data
-        sudo mongod --dbpath=$HOME/mongodb_data --quiet &
+        sudo mongod --dbpath=$HOME/mongodb_data --quiet &> /dev/null &
         sleep 3s
         sudo tox
         sudo pip3 install .
