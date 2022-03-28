@@ -139,16 +139,18 @@ jobs:
       env:
         OUTPUT_TARBALL: mykrobe.command_line.osx.${{env.RELEASE_VERSION}}.tar.gz
       run: |
-        sudo mongod --help
-        sudo ls -lh /
-        sudo ls -lh /usr/local/etc/
-        sudo cat /usr/local/etc/mongod.conf
-        sudo ls -lh /usr/local/var/
-        sudo ls -lh /usr/local/var/mongodb
+        #sudo mongod --help
+        #sudo ls -lh /
+        #sudo ls -lh /usr/local/etc/
+        #sudo cat /usr/local/etc/mongod.conf
+        #sudo ls -lh /usr/local/var/
+        #sudo ls -lh /usr/local/var/mongodb
         #sudo mkdir -p /data/db
         #sudo chown -R `id -un` /data/db
         #sudo mongod --quiet &>/dev/null &
-        sudo mongod --quiet &
+        sudo mkdir -p /System/Volumes/Data/home/mongodb_data
+        sudo chown -R `id -un` /System/Volumes/Data/home/mongodb_data
+        sudo mongod --dbpath=/System/Volumes/Data/home/mongodb_data --quiet &
         sleep 3s
         sudo tox
         sudo pip3 install .
