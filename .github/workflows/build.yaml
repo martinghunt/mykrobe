@@ -148,9 +148,9 @@ jobs:
         #sudo mkdir -p /data/db
         #sudo chown -R `id -un` /data/db
         #sudo mongod --quiet &>/dev/null &
-        sudo mkdir -p /System/Volumes/Data/home/mongodb_data
-        sudo chown -R `id -un` /System/Volumes/Data/home/mongodb_data
-        sudo mongod --dbpath=/System/Volumes/Data/home/mongodb_data --quiet &
+        mkdir $HOME/mongodb_data
+        chown -R `id -un` $HOME/mongodb_data
+        sudo mongod --dbpath=$HOME/mongodb_data --quiet &
         sleep 3s
         sudo tox
         sudo pip3 install .
