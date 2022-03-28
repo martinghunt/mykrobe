@@ -120,11 +120,8 @@ jobs:
     runs-on: macos-11
     steps:
 
-    - name: Install dependencies and run tests
+    - name: Install dependencies
       run: |
-        #sudo mkdir -p /data/db
-        #sudo chown -R `id -un` /data/db
-        mongod --quiet &>/dev/null &
         pip3 install cython requests wheel tox pyinstaller
 
     - name: Check out code for the build
@@ -142,6 +139,7 @@ jobs:
       env:
         OUTPUT_TARBALL: mykrobe.command_line.osx.${{env.RELEASE_VERSION}}.tar.gz
       run: |
+        mongod --quiet &>/dev/null &
         tox
         pip3 install .
         mykrobe panels update_metadata --panels_dir src/mykrobe/data
