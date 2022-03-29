@@ -191,11 +191,14 @@ jobs:
         echo "pwd"
         pwd
         ls -lh
-        echo "which conda"
-        which conda
         echo "ls -lh /"
         ls -lh /
-        $CONDA/condabin/conda activate
+        echo "ls -lh /c"
+        ls -lh /c
+        echo "ls -lh /c/Miniconda"
+        ls -lh /c/Miniconda
+        echo "activate conda"
+        /c/Miniconda/condabin/conda activate
         conda config --add channels defaults
         conda config --add channels bioconda
         conda config --add channels conda-forge
