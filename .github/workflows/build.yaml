@@ -161,3 +161,50 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  windows_build:
+    name: Build Windows command line
+    runs-on: windows-2019
+    steps:
+
+    - name: Install dependencies
+      run: |
+        pip3 install cython requests wheel tox pyinstaller
+      shell: bash
+
+    - name: Check out code for the build
+      uses: actions/checkout@v2
+
+    - name: Set release version if is a release
+      if: startsWith(github.event.ref, 'refs/tags/v')
+      run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      shell: bash
+
+    - name: Set release version if not a release
+      if: false == startsWith(github.event.ref, 'refs/tags/v')
+      run: echo "RELEASE_VERSION=test" >> $GITHUB_ENV
+      shell: bash
+
+    - name: Test and build command line tarball
+      env:
+        OUTPUT_TARBALL: mykrobe.command_line.windows.${{env.RELEASE_VERSION}}.tar.gz
+      run: |
+        mongod &
+        sleep 3s
+        tox
+        pip3 install .
+        mykrobe panels update_metadata --panels_dir src/mykrobe/data
+        mykrobe panels update_species --panels_dir src/mykrobe/data --debug all
+        cd dist
+        pyinstaller --workpath='./pyinstaller_build/binary_cache' --distpath='./pyinstaller_build' mykrobe_atlas_pyinstaller_windows.spec
+        cd pyinstaller_build
+        tar cvfz ../../${OUTPUT_TARBALL} mykrobe_atlas/
+      shell: bash
+
+    - name: Release
+      if: startsWith(github.event.ref, 'refs/tags/v')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: mykrobe.command_line.windows.*.tar.gz
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
