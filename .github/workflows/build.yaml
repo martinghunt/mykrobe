@@ -204,10 +204,11 @@ jobs:
         echo "activate conda"
         /c/Miniconda/condabin/conda.bat activate
         echo "add conda channels"
-        conda config --add channels defaults
-        conda config --add channels bioconda
-        conda config --add channels conda-forge
-        conda install -c bioconda cyvcf2=0.30.15
+        /c/Miniconda/condabin/conda.bat config --add channels defaults
+        /c/Miniconda/condabin/conda.bat config --add channels bioconda
+        /c/Miniconda/condabin/conda.bat config --add channels conda-forge
+        /c/Miniconda/condabin/conda.bat install -c bioconda cyvcf2=0.30.15
+        echo "mongod start"
         mkdir $HOME/mongodb_data
         mongod --dbpath=$HOME/mongodb_data &
         sleep 3s
