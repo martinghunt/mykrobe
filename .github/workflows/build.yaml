@@ -188,6 +188,13 @@ jobs:
       env:
         OUTPUT_TARBALL: mykrobe.command_line.windows.${{env.RELEASE_VERSION}}.tar.gz
       run: |
+        echo "pwd"
+        pwd
+        ls -lh
+        echo "which conda"
+        which conda
+        echo "ls -lh /"
+        ls -lh /
         $CONDA/condabin/conda activate
         conda config --add channels defaults
         conda config --add channels bioconda
