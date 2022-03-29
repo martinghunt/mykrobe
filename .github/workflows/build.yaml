@@ -207,7 +207,7 @@ jobs:
         /c/Miniconda/condabin/conda.bat config --add channels defaults
         /c/Miniconda/condabin/conda.bat config --add channels bioconda
         /c/Miniconda/condabin/conda.bat config --add channels conda-forge
-        /c/Miniconda/condabin/conda.bat install -c bioconda cyvcf2=0.30.15
+        /c/Miniconda/condabin/conda.bat install -c bioconda cyvcf2
         echo "mongod start"
         mkdir $HOME/mongodb_data
         mongod --dbpath=$HOME/mongodb_data &
