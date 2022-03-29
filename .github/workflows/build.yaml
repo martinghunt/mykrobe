@@ -202,7 +202,7 @@ jobs:
         echo "find conda"
         find /c/Miniconda -name conda
         echo "activate conda"
-        /c/Miniconda/condabin/conda activate
+        /c/Miniconda/Lib/site-packages/conda/shell/bin/conda activate
         conda config --add channels defaults
         conda config --add channels bioconda
         conda config --add channels conda-forge
