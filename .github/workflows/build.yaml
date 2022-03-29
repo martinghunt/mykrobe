@@ -201,6 +201,8 @@ jobs:
         ls -lh /c/Miniconda/condabin
         echo "find conda"
         find /c/Miniconda -name conda
+        echo "conda init"
+        /c/Miniconda/Lib/site-packages/conda/shell/bin/conda init bash
         echo "activate conda"
         /c/Miniconda/Lib/site-packages/conda/shell/bin/conda activate
         conda config --add channels defaults
