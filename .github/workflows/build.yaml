@@ -191,7 +191,7 @@ jobs:
         mkdir $HOME/mongodb_data
         mongod --dbpath=$HOME/mongodb_data &
         sleep 3s
-        pip3 install -vv pyvcf2
+        pip3 install -vv cyvcf2
         tox
         pip3 install .
         mykrobe panels update_metadata --panels_dir src/mykrobe/data
