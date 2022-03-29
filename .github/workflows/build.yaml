@@ -139,15 +139,7 @@ jobs:
       env:
         OUTPUT_TARBALL: mykrobe.command_line.osx.${{env.RELEASE_VERSION}}.tar.gz
       run: |
-        #sudo mongod --help
-        #sudo ls -lh /
-        #sudo ls -lh /usr/local/etc/
-        #sudo cat /usr/local/etc/mongod.conf
-        #sudo ls -lh /usr/local/var/
-        #sudo ls -lh /usr/local/var/mongodb
-        #sudo mkdir -p /data/db
-        #sudo chown -R `id -un` /data/db
-        #sudo mongod --quiet &>/dev/null &
+        # mongod default data directory is /data/db, which is not writeable.
         mkdir $HOME/mongodb_data
         chown -R `id -un` $HOME/mongodb_data
         sudo mongod --dbpath=$HOME/mongodb_data --quiet &> /dev/null &
