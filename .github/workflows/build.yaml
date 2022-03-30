@@ -194,8 +194,8 @@ jobs:
         ./configure --enable-libcurl
         make
         cd ..
-        pip install -r requirements.txt
-        CYTHONIZE=0 pip install -e .
+        pip3 install -r requirements.txt
+        CYTHONIZE=0 pip3 install -e .
 
         echo "mongod start"
         mkdir $HOME/mongodb_data
