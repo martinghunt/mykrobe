@@ -188,26 +188,16 @@ jobs:
       env:
         OUTPUT_TARBALL: mykrobe.command_line.windows.${{env.RELEASE_VERSION}}.tar.gz
       run: |
-        echo "pwd"
-        pwd
-        ls -lh
-        echo "ls -lh /"
-        ls -lh /
-        echo "ls -lh /c"
-        ls -lh /c
-        echo "ls -lh /c/Miniconda"
-        ls -lh /c/Miniconda
-        echo "ls -lh /c/Miniconda/condabin"
-        ls -lh /c/Miniconda/condabin
-        echo "find conda"
-        find /c/Miniconda -name conda
-        echo "activate conda"
-        /c/Miniconda/condabin/conda.bat activate
-        echo "add conda channels"
-        /c/Miniconda/condabin/conda.bat config --add channels defaults
-        /c/Miniconda/condabin/conda.bat config --add channels bioconda
-        /c/Miniconda/condabin/conda.bat config --add channels conda-forge
-        /c/Miniconda/condabin/conda.bat install -c bioconda/label/cf201901 cyvcf2
+        git clone --recursive https://github.com/brentp/cyvcf2
+        cd cyvcf2/htslib
+        autoheader
+        autoconf
+        ./configure --enable-libcurl
+        make
+        cd ..
+        pip install -r requirements.txt
+        CYTHONIZE=0 pip install -e .
+
         echo "mongod start"
         mkdir $HOME/mongodb_data
         mongod --dbpath=$HOME/mongodb_data &
