@@ -192,8 +192,8 @@ jobs:
         C:\\tools\\cygwin\\cygwinsetup.exe -q -P automake,autoconf
         git clone --recursive https://github.com/brentp/cyvcf2
         cd cyvcf2/htslib
-        autoheader
-        autoconf
+        C:\\cygwin64\\bin\\bash -lc autoheader
+        C:\\cygwin64\\bin\\bash -lc autoconf
         ./configure --enable-libcurl
         make
         cd ..
