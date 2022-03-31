@@ -173,7 +173,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install cython requests wheel tox pyinstaller
+        pip install cython requests wheel tox pyinstaller numpy
       shell: bash
 
     - name: Check out code for the build
@@ -205,9 +205,6 @@ jobs:
         echo "mongod start"
         mkdir $HOME/mongodb_data
         mongod --dbpath=$HOME/mongodb_data &
-        sleep 3s
-        which pip
-        pip install cython requests wheel tox pyinstaller
         tox
         pip install .
         mykrobe panels update_metadata --panels_dir src/mykrobe/data
