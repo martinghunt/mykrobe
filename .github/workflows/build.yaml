@@ -164,8 +164,12 @@ jobs:
   windows_build:
     name: Build Windows command line
     runs-on: windows-2019
-    uses: msys2/setup-msys2@v2
     steps:
+    - uses: msys2/setup-msys2@v2
+      with:
+        update: true
+        install: >-
+          autotools
 
     - name: Install dependencies
       run: |
