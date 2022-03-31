@@ -188,6 +188,7 @@ jobs:
       env:
         OUTPUT_TARBALL: mykrobe.command_line.windows.${{env.RELEASE_VERSION}}.tar.gz
       run: |
+        pacman -S autotools
         ls C:\\msys64\\usr\\bin\\
         git clone --recursive https://github.com/brentp/cyvcf2
         cd cyvcf2/htslib
