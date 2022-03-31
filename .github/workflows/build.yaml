@@ -171,6 +171,11 @@ jobs:
         install: >-
           autotools git gcc python python-pip python-devel zlib-devel libcurl-devel bzip2 liblzma zip libbz2-devel xz zlib zlib-devel libtool wget liblzma-devel ncurses-devel base-devel openssl-devel
 
+    - name: Install dependencies
+      run: |
+        pip install cython requests wheel tox pyinstaller numpy
+      shell: msys2 {0}
+
     - name: Check out code for the build
       uses: actions/checkout@v2
 
@@ -188,13 +193,15 @@ jobs:
       env:
         OUTPUT_TARBALL: mykrobe.command_line.windows.${{env.RELEASE_VERSION}}.tar.gz
       run: |
+        export LDFLAGS="-LC:\\msys64\\opt\\lib-openssl"
         echo "/opt"
         ls C:\\msys64\\opt
+        echo "/opt/lib-openssl"
+        ls C:\\msys64\\opt\\lib-openssl
         echo "lib-openssl"
         ls C:\\msys64\\usr\\lib\\openssl
         echo "msys64"
         ls C:\\msys64
-        ls blaaa
         git clone --recursive https://github.com/brentp/cyvcf2
         echo "Installing htslib..."
         cd cyvcf2/htslib
