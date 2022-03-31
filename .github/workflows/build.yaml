@@ -169,7 +169,7 @@ jobs:
       with:
         update: true
         install: >-
-          autotools git
+          autotools=2.68 git
 
     - name: Install dependencies
       run: |
@@ -195,7 +195,6 @@ jobs:
       run: |
         git clone --recursive https://github.com/brentp/cyvcf2
         cd cyvcf2/htslib
-        git checkout develop
         autoheader
         autoconf
         ./configure --enable-libcurl
