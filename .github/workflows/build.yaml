@@ -169,7 +169,7 @@ jobs:
       with:
         update: true
         install: >-
-          autotools git gcc python python-pip python-devel zlib-devel libcurl-devel bzip2 liblzma zip libbz2-devel xz zlib zlib-devel libtool wget liblzma-devel ncurses-devel base-devel openssl
+          autotools git gcc python python-pip python-devel zlib-devel libcurl-devel bzip2 liblzma zip libbz2-devel xz zlib zlib-devel libtool wget liblzma-devel ncurses-devel base-devel openssl-devel
 
     - name: Install dependencies
       run: |
@@ -193,7 +193,7 @@ jobs:
       env:
         OUTPUT_TARBALL: mykrobe.command_line.windows.${{env.RELEASE_VERSION}}.tar.gz
       run: |
-        git clone --recursive https://github.com/leoisl/cyvcf2
+        git clone --recursive https://github.com/brentp/cyvcf2
         echo "Installing htslib..."
         cd cyvcf2/htslib
         autoreconf -i
@@ -204,7 +204,7 @@ jobs:
         cd ..
         pip install -r requirements.txt
         CYTHONIZE=1 pip install -e .
-        echo "Installing cyvcf2 - done" 
+        echo "Installing cyvcf2 - done"
 
         echo "mongod start"
         mkdir $HOME/mongodb_data
