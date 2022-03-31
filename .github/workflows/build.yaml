@@ -185,17 +185,15 @@ jobs:
       shell: bash
 
     - name: Test and build command line tarball
+      shell: msys2 {0}
       env:
         OUTPUT_TARBALL: mykrobe.command_line.windows.${{env.RELEASE_VERSION}}.tar.gz
       run: |
-        which ls
-        ls C:\\msys64\\
-        ls C:\\msys64\\usr
-        ls C:\\msys64\\usr\\bin
-        C:\\msys64\\pacman -S autotools
-        ls C:\\msys64\\usr\\bin\\
+        pacman -S autotools
         git clone --recursive https://github.com/brentp/cyvcf2
         cd cyvcf2/htslib
+        autoheader
+        autoconf
         ./configure --enable-libcurl
         make
         cd ..
