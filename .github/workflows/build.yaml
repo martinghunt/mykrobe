@@ -200,7 +200,7 @@ jobs:
         make
         cd ..
         pip install -r requirements.txt
-        CYTHONIZE=0 pip install -e .
+        CYTHONIZE=1 pip install -e .
 
         echo "mongod start"
         mkdir $HOME/mongodb_data
