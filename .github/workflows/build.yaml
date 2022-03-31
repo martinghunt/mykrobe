@@ -169,11 +169,11 @@ jobs:
       with:
         update: true
         install: >-
-          autotools git gcc zlib-devel
+          autotools git gcc zlib-devel python3 mingw-w64-x86_64-python mingw-w64-x86_64-python-pip
 
     - name: Install dependencies
       run: |
-        pip3 install cython requests wheel tox pyinstaller
+        pip install cython requests wheel tox pyinstaller
       shell: bash
 
     - name: Check out code for the build
@@ -199,17 +199,17 @@ jobs:
         ./configure --enable-libcurl --enable-lib32 --enable-lib64 --enable-experimental --host=x86_64-w64-mingw32 --disable-bz2 --disable-lzma --disable-libcurl
         make
         cd ..
-        pip3 install -r requirements.txt
-        CYTHONIZE=0 pip3 install -e .
+        pip install -r requirements.txt
+        CYTHONIZE=0 pip install -e .
 
         echo "mongod start"
         mkdir $HOME/mongodb_data
         mongod --dbpath=$HOME/mongodb_data &
         sleep 3s
-        which pip3
-        pip3 install cython requests wheel tox pyinstaller
+        which pip
+        pip install cython requests wheel tox pyinstaller
         tox
-        pip3 install .
+        pip install .
         mykrobe panels update_metadata --panels_dir src/mykrobe/data
         mykrobe panels update_species --panels_dir src/mykrobe/data --debug all
         cd dist
