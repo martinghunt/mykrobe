@@ -169,7 +169,7 @@ jobs:
       with:
         update: true
         install: >-
-          autotools==2.68 git
+          autoconf git
 
     - name: Install dependencies
       run: |
