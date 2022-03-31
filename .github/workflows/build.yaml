@@ -169,7 +169,7 @@ jobs:
       with:
         update: true
         install: >-
-          autotools git gcc zlib-devel
+          autotools git gcc zlib-devel libbz2-devel
 
     - name: Install dependencies
       run: |
