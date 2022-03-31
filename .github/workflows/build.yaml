@@ -169,7 +169,7 @@ jobs:
       with:
         update: true
         install: >-
-          autotools git gcc zlib-devel python3 mingw-w64-x86_64-python mingw-w64-x86_64-python-pip python-devel
+          autotools git gcc zlib-devel python python-pip python-devel
 
     - name: Install dependencies
       run: |
