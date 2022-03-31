@@ -191,7 +191,6 @@ jobs:
         ls C:\\msys64\\usr\\bin\\
         git clone --recursive https://github.com/brentp/cyvcf2
         cd cyvcf2/htslib
-        C:\\msys64\\usr\\bin\\bash.exe -lc "autoheader && autoconf"
         ./configure --enable-libcurl
         make
         cd ..
