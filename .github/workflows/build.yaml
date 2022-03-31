@@ -188,9 +188,13 @@ jobs:
       env:
         OUTPUT_TARBALL: mykrobe.command_line.windows.${{env.RELEASE_VERSION}}.tar.gz
       run: |
+        echo "ssl"
         ls C:\\msys64\\usr\\ssl
+        echo "include"
         ls C:\\msys64\\usr\\include
+        echo "lib"
         ls C:\\msys64\\usr\\lib
+        echo "msys64"
         ls C:\\msys64
         git clone --recursive https://github.com/brentp/cyvcf2
         echo "Installing htslib..."
