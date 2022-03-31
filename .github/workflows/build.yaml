@@ -169,7 +169,7 @@ jobs:
       with:
         update: true
         install: >-
-          autotools git gcc zlib-devel libbz2-devel
+          autotools git gcc zlib-devel
 
     - name: Install dependencies
       run: |
@@ -196,7 +196,7 @@ jobs:
         git clone --recursive https://github.com/brentp/cyvcf2
         cd cyvcf2/htslib
         autoreconf -i
-        ./configure --enable-libcurl --enable-lib32 --enable-lib64 --enable-experimental --host=x86_64-w64-mingw32
+        ./configure --enable-libcurl --enable-lib32 --enable-lib64 --enable-experimental --host=x86_64-w64-mingw32 --disable-bz2 --disable-lzma
         make
         cd ..
         pip3 install -r requirements.txt
