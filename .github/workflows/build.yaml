@@ -197,7 +197,7 @@ jobs:
         echo "Installing htslib..."
         cd cyvcf2/htslib
         autoreconf -i
-        ./configure --enable-libcurl --enable-lib32 --enable-lib64 --enable-experimental --host=x86_64-w64-mingw32 --disable-bz2 --disable-lzma
+        ./configure --enable-libcurl --enable-lib32 --enable-lib64 --enable-experimental --host=x86_64-w64-mingw32 --disable-bz2 --disable-lzma --disable-s3
         make
         echo "Installing htslib - done"
         echo "Installing cyvcf2..."
