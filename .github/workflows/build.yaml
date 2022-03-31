@@ -196,7 +196,7 @@ jobs:
         git clone --recursive https://github.com/brentp/cyvcf2
         cd cyvcf2/htslib
         autoreconf -i
-        ./configure --enable-libcurl --target-os=mingw32 --arch=x86_64
+        ./configure --enable-libcurl --enable-lib32 --enable-lib64 --enable-experimental --host=x86_64-w64-mingw32
         make
         cd ..
         pip3 install -r requirements.txt
