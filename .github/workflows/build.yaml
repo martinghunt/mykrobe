@@ -160,7 +160,7 @@ jobs:
         files: mykrobe.command_line.osx.*.tar.gz
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+ 
   windows_build:
     name: Build Windows command line
     runs-on: windows-2019
@@ -194,13 +194,17 @@ jobs:
         OUTPUT_TARBALL: mykrobe.command_line.windows.${{env.RELEASE_VERSION}}.tar.gz
       run: |
         git clone --recursive https://github.com/leoisl/cyvcf2
+        echo "Installing htslib..."
         cd cyvcf2/htslib
         autoreconf -i
         ./configure --enable-libcurl --enable-lib32 --enable-lib64 --enable-experimental --host=x86_64-w64-mingw32 --disable-bz2 --disable-lzma
         make
+        echo "Installing htslib - done"
+        echo "Installing cyvcf2..."
         cd ..
         pip install -r requirements.txt
         CYTHONIZE=1 pip install -e .
+        echo "Installing cyvcf2 - done" 
 
         echo "mongod start"
         mkdir $HOME/mongodb_data
