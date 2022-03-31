@@ -169,7 +169,7 @@ jobs:
       with:
         update: true
         install: >-
-          autotools
+          autotools git
 
     - name: Install dependencies
       run: |
