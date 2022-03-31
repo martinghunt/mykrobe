@@ -188,10 +188,8 @@ jobs:
       env:
         OUTPUT_TARBALL: mykrobe.command_line.windows.${{env.RELEASE_VERSION}}.tar.gz
       run: |
-        echo "/opt/openssl/lib"
-        ls C:\\msys64\\opt\\openssl\\lib
-        echo "/opt/openssl/include"
-        ls C:\\msys64\\opt\\openssl\\include
+        echo "/opt"
+        ls C:\\msys64\\opt
         echo "lib-openssl"
         ls C:\\msys64\\usr\\lib\\openssl
         echo "msys64"
