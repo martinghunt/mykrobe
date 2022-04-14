@@ -156,6 +156,11 @@ jobs:
       run: |
         echo "pwd"
         pwd
+        echo "ls -lh /"
+        ls -lh /
+        echo "find / -name phylo.py"
+        find / -name phylo.py
+        exit
         echo "ls -lh"
         ls -lh
         echo "which python"
