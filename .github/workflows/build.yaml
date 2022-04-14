@@ -149,8 +149,15 @@ jobs:
         platform: x64
         packages: make,unzip,automake,automake1.16,autoconf,autoconf2.5,zip,libbz2-devel,bzip2,xz,zlib,zlib-devel,python3,libtool,wget,liblzma-devel,libcurl-devel,R,libncurses-devel,python3-cython,python3-devel
 
+    - name: Check out code for the build
+      uses: actions/checkout@v2
+
     - name: Install dependencies
       run: |
+        echo "pwd"
+        pwd
+        echo "ls -lh"
+        ls -lh
         echo "which python"
         which python
         echo "which python3"
@@ -167,9 +174,6 @@ jobs:
         pip3 install tox requests numpy==1.15
 
       shell: C:\tools\cygwin\bin\bash.exe --login --norc -eo pipefail -o igncr '{0}'
-
-    - name: Check out code for the build
-      uses: actions/checkout@v2
 
     - name: Set release version if is a release
       if: startsWith(github.event.ref, 'refs/tags/v')
