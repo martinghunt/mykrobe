@@ -166,10 +166,13 @@ jobs:
       env:
         OUTPUT_TARBALL: mykrobe.command_line.windows.${{env.RELEASE_VERSION}}.tar.gz
       run: |
+        echo "find python3"
+        find /cygdrive/c/ -name python3
         echo "which python3"
         which python3
         echo "python3 --version"
         python3 --version
+        exit
         python3 -m pip install --upgrade pip
         python3 -m pip install wheel
         python3 -m pip install tox requests numpy==1.15
@@ -211,7 +214,7 @@ jobs:
         cd pyinstaller_build
         tar cvfz ../../${OUTPUT_TARBALL} mykrobe_atlas/
 
-      shell: C:\tools\cygwin\bin\bash.exe --norc -eo pipefail -o igncr '{0}'
+      shell: C:\tools\cygwin\bin\bash.exe --login --norc -eo pipefail -o igncr '{0}'
 #
 #    - name: Release
 #      if: startsWith(github.event.ref, 'refs/tags/v')
