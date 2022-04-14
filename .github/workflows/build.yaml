@@ -166,6 +166,11 @@ jobs:
       env:
         OUTPUT_TARBALL: mykrobe.command_line.windows.${{env.RELEASE_VERSION}}.tar.gz
       run: |
+        echo "ls -lh /cygdrive/c/"
+        ls -lh /cygdrive/c/
+        echo "ls -lh /cygdrive/c/*"
+        ls -lh /cygdrive/c/*
+        exit
         echo "which python3"
         which python3
         echo "python3 --version"
