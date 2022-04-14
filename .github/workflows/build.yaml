@@ -163,17 +163,17 @@ jobs:
         python3 -m pip install tox requests numpy==1.15
         python3 -m pip install pyinstaller
 
-      shell: C:\tools\cygwin\bin\bash.exe --login --norc -eo pipefail -o igncr '{0}'
+      shell: C:\tools\cygwin\bin\bash.exe --norc -eo pipefail -o igncr '{0}'
 
     - name: Set release version if is a release
       if: startsWith(github.event.ref, 'refs/tags/v')
       run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-      shell: C:\tools\cygwin\bin\bash.exe --login --norc -eo pipefail -o igncr '{0}'
+      shell: C:\tools\cygwin\bin\bash.exe --norc -eo pipefail -o igncr '{0}'
 
     - name: Set release version if not a release
       if: false == startsWith(github.event.ref, 'refs/tags/v')
       run: echo "RELEASE_VERSION=test" >> $GITHUB_ENV
-      shell: C:\tools\cygwin\bin\bash.exe --login --norc -eo pipefail -o igncr '{0}'
+      shell: C:\tools\cygwin\bin\bash.exe --norc -eo pipefail -o igncr '{0}'
 
     - name: Test and build command line tarball
       env:
@@ -220,7 +220,7 @@ jobs:
         cd pyinstaller_build
         tar cvfz ../../${OUTPUT_TARBALL} mykrobe_atlas/
 
-      shell: C:\tools\cygwin\bin\bash.exe --login --norc -eo pipefail -o igncr '{0}'
+      shell: C:\tools\cygwin\bin\bash.exe --norc -eo pipefail -o igncr '{0}'
 #
 #    - name: Release
 #      if: startsWith(github.event.ref, 'refs/tags/v')
