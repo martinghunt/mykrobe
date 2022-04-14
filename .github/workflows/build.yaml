@@ -147,7 +147,7 @@ jobs:
     - uses: egor-tensin/setup-cygwin@v3
       with:
         platform: x64
-        packages: make,unzip,automake,automake1.16,autoconf,autoconf2.5,zip,libbz2-devel,bzip2,xz,zlib,zlib-devel,python3,libtool,wget,liblzma-devel,libcurl-devel,R,libncurses-devel,python3-cython,python3-devel
+        packages: make,unzip,automake,automake1.16,autoconf,autoconf2.5,zip,libbz2-devel,bzip2,xz,zlib,zlib-devel,python39,libtool,wget,liblzma-devel,libcurl-devel,R,libncurses-devel,python39-cython,python39-devel
 
     - name: Check out code for the build
       uses: actions/checkout@v2
