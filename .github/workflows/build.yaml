@@ -144,14 +144,7 @@ jobs:
     name: Build Windows command line
     runs-on: windows-2019
     steps:
-    #- uses: msys2/setup-msys2@v2
-    #  with:
-    #    update: true
-    #    install: >-
-    #      autotools git gcc python python-pip python-devel python-setuptools zlib-devel libcurl-devel bzip2 liblzma zip libbz2-devel xz zlib zlib-devel libtool wget liblzma-devel ncurses-devel base-devel openssl-devel mingw64/mingw-w64-x86_64-python3 mingw64/mingw-w64-x86_64-python3-pip mingw-w64-x86_64-python-numpy mingw-w64-x86_64-python-setuptools
-
-    - name: Set up Cygwin
-      uses: egor-tensin/setup-cygwin@v3
+    - uses: egor-tensin/setup-cygwin@v3
       with:
         platform: x64
         packages: make,unzip,automake,automake1.16,autoconf,autoconf2.5,zip,libbz2-devel,bzip2,xz,zlib,zlib-devel,python3,libtool,wget,liblzma-devel,libcurl-devel,R,libncurses-devel,python3-cython,python3-devel
