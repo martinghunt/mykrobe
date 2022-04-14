@@ -151,19 +151,19 @@ jobs:
 
     - name: Install dependencies
       run: |
-		echo "which python"
+        echo "which python"
         which python
-		echo "which python3"
+        echo "which python3"
         which python3
-		python3 -m pip install --upgrade pip
-		git clone --recursive -b geno_kmer_count https://github.com/phelimb/mccortex
-		cd mccortex/libs/htslib && git checkout bcf9bff178f81c9c1cf3a052aeb6cbe32fe5fdcc
-		cd mccortex/libs/bcftools && git checkout b406a3906b153faa8bec0a53df07b2adf18a3052
-		cd mccortex/libs/samtools && git checkout 2d4907cf9a34ccf7cde60143158b39e1cb40ac0c
-		python3 ./ci/windows_file_fixes.py
-		cd mccortex && make all && make tests
-		pip3 install wheel
-		pip3 install tox requests numpy==1.15
+        python3 -m pip install --upgrade pip
+        git clone --recursive -b geno_kmer_count https://github.com/phelimb/mccortex
+        cd mccortex/libs/htslib && git checkout bcf9bff178f81c9c1cf3a052aeb6cbe32fe5fdcc
+        cd mccortex/libs/bcftools && git checkout b406a3906b153faa8bec0a53df07b2adf18a3052
+        cd mccortex/libs/samtools && git checkout 2d4907cf9a34ccf7cde60143158b39e1cb40ac0c
+        python3 ./ci/windows_file_fixes.py
+        cd mccortex && make all && make tests
+        pip3 install wheel
+        pip3 install tox requests numpy==1.15
 
       shell: C:\tools\cygwin\bin\bash.exe --login --norc -eo pipefail -o igncr '{0}'
 
