@@ -156,12 +156,13 @@ jobs:
         echo "which python3"
         which python3
         python3 -m pip install --upgrade pip
+        original_dir=$PWD
         git clone --recursive -b geno_kmer_count https://github.com/phelimb/mccortex
-        cd mccortex/libs/htslib && git checkout bcf9bff178f81c9c1cf3a052aeb6cbe32fe5fdcc
-        cd mccortex/libs/bcftools && git checkout b406a3906b153faa8bec0a53df07b2adf18a3052
-        cd mccortex/libs/samtools && git checkout 2d4907cf9a34ccf7cde60143158b39e1cb40ac0c
+        cd mccortex/libs/htslib && git checkout bcf9bff178f81c9c1cf3a052aeb6cbe32fe5fdcc && cd $original_dir
+        cd mccortex/libs/bcftools && git checkout b406a3906b153faa8bec0a53df07b2adf18a3052 && cd $original_dir
+        cd mccortex/libs/samtools && git checkout 2d4907cf9a34ccf7cde60143158b39e1cb40ac0c && cd $original_dir
         python3 ./ci/windows_file_fixes.py
-        cd mccortex && make all && make tests
+        cd mccortex && make all && make tests && cd $original_dir
         pip3 install wheel
         pip3 install tox requests numpy==1.15
 
