@@ -147,7 +147,8 @@ jobs:
     - uses: egor-tensin/setup-cygwin@v3
       with:
         platform: x64
-        packages: make,unzip,automake,automake1.16,autoconf,autoconf2.5,zip,libbz2-devel,bzip2,xz,zlib,zlib-devel,python3,libtool,wget,liblzma-devel,libcurl-devel,R,libncurses-devel,python3-cython,python3-devel
+        #packages: make,unzip,automake,automake1.16,autoconf,autoconf2.5,zip,libbz2-devel,bzip2,xz,zlib,zlib-devel,python3,libtool,wget,liblzma-devel,libcurl-devel,R,libncurses-devel,python3-cython,python3-devel
+        packages: make
 
     - name: Check out code for the build
       uses: actions/checkout@v2
@@ -158,15 +159,13 @@ jobs:
         pwd
         echo "ls -lh /"
         ls -lh /
-        echo "find / -name phylo.py"
-        find / -name phylo.py
-        exit
         echo "ls -lh"
         ls -lh
         echo "which python"
         which python
         echo "which python3"
         which python3
+        exit
         python3 -m pip install --upgrade pip
         original_dir=$PWD
         git clone --recursive -b geno_kmer_count https://github.com/phelimb/mccortex
@@ -178,7 +177,7 @@ jobs:
         pip3 install wheel
         pip3 install tox requests numpy==1.15
 
-      shell: C:\tools\cygwin\bin\bash.exe --login --norc -eo pipefail -o igncr '{0}'
+      shell: C:\tools\cygwin\bin\bash.exe --norc -eo pipefail -o igncr '{0}'
 
     - name: Set release version if is a release
       if: startsWith(github.event.ref, 'refs/tags/v')
