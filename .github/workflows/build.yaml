@@ -152,19 +152,6 @@ jobs:
     - name: Check out code for the build
       uses: actions/checkout@v2
 
-    - name: Install dependencies
-      run: |
-        echo "which python3"
-        which python3
-        echo "python3 --version"
-        python3 --version
-        python3 -m pip install --upgrade pip
-        python3 -m pip install wheel
-        python3 -m pip install tox requests numpy==1.15
-        python3 -m pip install pyinstaller
-
-      shell: C:\tools\cygwin\bin\bash.exe --norc -eo pipefail -o igncr '{0}'
-
     - name: Set release version if is a release
       if: startsWith(github.event.ref, 'refs/tags/v')
       run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
@@ -183,6 +170,10 @@ jobs:
         which python3
         echo "python3 --version"
         python3 --version
+        python3 -m pip install --upgrade pip
+        python3 -m pip install wheel
+        python3 -m pip install tox requests numpy==1.15
+        python3 -m pip install pyinstaller
         cd /cygdrive/d/a/mykrobe/mykrobe
         echo "ls -lh"
         ls -lh
