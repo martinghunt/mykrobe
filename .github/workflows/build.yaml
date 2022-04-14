@@ -166,8 +166,6 @@ jobs:
       env:
         OUTPUT_TARBALL: mykrobe.command_line.windows.${{env.RELEASE_VERSION}}.tar.gz
       run: |
-        echo "find python3"
-        find /cygdrive/c/ -name python3
         echo "which python3"
         which python3
         echo "python3 --version"
