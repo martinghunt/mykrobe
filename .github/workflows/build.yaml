@@ -170,7 +170,6 @@ jobs:
         which python3
         echo "python3 --version"
         python3 --version
-        exit
         python3 -m pip install --upgrade pip
         python3 -m pip install wheel
         python3 -m pip install tox requests numpy==1.15
